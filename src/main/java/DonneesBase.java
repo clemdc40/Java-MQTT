@@ -55,8 +55,8 @@ public class DonneesBase {
 
     private static void saveToDatabase(String batterie, String heure, String temperature) {
         String jdbcUrl = "jdbc:mysql://bdd:3306/Tesla?autoReconnect=true&useSSL=false"; // Hôte MySQL dans Docker
-        String username = "root";
-        String password = "root";
+        String username = System.getenv("MYSQL_PASSWORD");
+        String password = System.getenv("MYSQL_USERNAME");
 
         String insertQuery = "INSERT INTO teslainfo (batterie, heure, temperature) VALUES (?, ?, ?)";
 

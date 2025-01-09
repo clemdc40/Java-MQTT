@@ -23,6 +23,8 @@ Write-Host "Starting Docker container '$CONTAINER_RUNTIME_NAME'..."
 docker run -d -it --rm `
     -v "$WORKING_DIR/app:/app" `
     --net $NETWORK_NAME `
+    -e "MYSQL_PASSWORD=root" `
+    -e "MYSQL_USERNAME=root" `
     -e "broker_host=Brocker-broker" `
     --name $CONTAINER_RUNTIME_NAME `
     openjdk:17
