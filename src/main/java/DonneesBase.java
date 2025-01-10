@@ -15,6 +15,8 @@ public class DonneesBase {
         // Configuration RabbitMQ
         ConnectionFactory factory = new ConnectionFactory();
         factory.setHost("Brocker-broker"); // Hôte RabbitMQ dans Docker
+        factory.setUsername("guest");
+        factory.setPassword("guest");
 
         // Création de la connexion RabbitMQ
         com.rabbitmq.client.Connection rabbitConnection = factory.newConnection();
@@ -55,8 +57,8 @@ public class DonneesBase {
 
     private static void saveToDatabase(String batterie, String heure, String temperature) {
         String jdbcUrl = "jdbc:mysql://bdd:3306/Tesla?autoReconnect=true&useSSL=false"; // Hôte MySQL dans Docker
-        String username = System.getenv("MYSQL_PASSWORD");
-        String password = System.getenv("MYSQL_USERNAME");
+        String username = System.getenv("MYSQL_USERNAME");
+        String password = System.getenv("MYSQL_PASSWORD");
 
         String insertQuery = "INSERT INTO teslainfo (batterie, heure, temperature) VALUES (?, ?, ?)";
 

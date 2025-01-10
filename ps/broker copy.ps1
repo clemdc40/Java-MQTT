@@ -14,5 +14,6 @@ docker run -d --rm -it `
     --name "bdd" `
     -p 3306:3306 `
     --net $NETWORK_NAME `
-    -e MYSQL_ROOT_PASSWORD=root`
+    -e MYSQL_ROOT_PASSWORD=root `
+    -v C:\Users\Utilisateur\Documents\clement\Cours\annee3\infrastructure\mysql:/var/lib/mysql `
     mysql:5.7.44-oraclelinux7

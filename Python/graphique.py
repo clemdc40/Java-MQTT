@@ -27,9 +27,10 @@ if response.status_code == 200:
             y.append(data[i + seq_length])
         return np.array(x), np.array(y)
 
-    seq_length = 300  
+    seq_length = 300  # Longueur des séquences
     X, y = create_sequences(batterie_scaled, seq_length)
 
+    # Modèle amélioré
     model = tf.keras.Sequential([
         tf.keras.layers.Bidirectional(tf.keras.layers.LSTM(128, return_sequences=True), input_shape=(seq_length, 1)),
         tf.keras.layers.Dropout(0.2),
