@@ -28,8 +28,8 @@ public class ModelePrediction {
 
     public static List<Float> recupererDonneesBatterieDepuisBDD() {
         String urlBDD = "jdbc:mysql://bdd:3306/Tesla?autoReconnect=true&useSSL=false";
-        String utilisateur = "root";
-        String motDePasse = "root";
+        String utilisateur = System.getenv("MYSQL_USERNAME");
+        String motDePasse = System.getenv("MYSQL_PASSWORD");
 
         String requete = "SELECT batterie FROM teslainfo";
         List<Float> donneesBatterie = new ArrayList<>();

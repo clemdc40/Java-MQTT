@@ -1,0 +1,61 @@
+version: '3.8'  # Version de Docker Compose
+
+services:
+  # Service pour l'application Tesla
+  tesla-app:
+    image: openjdk:17  # Utilisation d'une image Docker officielle pour Java
+    container_name: tesla-app
+    volumes:
+      - ./app:/app  # Monter le répertoire contenant le code dans le conteneur
+    working_dir: /app
+    command: java -jar /app/tesla-app.jar  # Lancement de l'application Java
+    ports:
+      - "8085:8080"  # Expose le port 8080 du conteneur sur le port 8085 de l'hôte
+    environment:
+      - BROKER_HOST=Brocker-broker  # Paramètre pour RabbitMQ
+      - MYSQL_HOST=db  # Connexion à la base de données MySQL
+      - MYSQL_PORT=3306
+      - MYSQL_USER=root
+      - MYSQL_PASSWORD=root_password
+      - MYSQL_DATABASE=Tesla
+    depends_on:
+      - db  # Le service Tesla dépend de MySQL (assurez-vous que la base de données est prête avant)
+      - broker  # Le service Tesla dépend aussi de RabbitMQ
+    networks:
+      - mqtt-network
+
+  # Service pour RabbitMQ
+  broker:
+    image: rabbitmq:3.12.4-management-alpine  # Utilisation d'une image officielle RabbitMQ avec l'interface de gestion
+    container_name: Brocker-broker
+    ports:
+      - "5672:5672"  # Port de communication RabbitMQ
+      - "15672:15672"  # Interface de gestion web de RabbitMQ
+    environment:
+      - RABBITMQ_DEFAULT_USER=user  # Utilisateur par défaut
+      - RABBITMQ_DEFAULT_PASS=pass  # Mot de passe par défaut
+    networks:
+      - mqtt-network
+
+  # Service pour MySQL
+  db:
+    image: mysql:5.7.44-oraclelinux7  # Utilisation d'une image officielle MySQL
+    container_name: bdd
+    environment:
+      MYSQL_ROOT_PASSWORD: root_password  # Mot de passe root pour MySQL
+      MYSQL_DATABASE: Tesla  # Base de données à créer
+    volumes:
+      - mysql-data:/var/lib/mysql  # Persistance des données
+    ports:
+      - "3306:3306"  # Port MySQL
+    networks:
+      - mqtt-network
+
+# Définir un réseau pour tous les services
+networks:
+  mqtt-network:
+    driver: bridge
+
+# Définir des volumes pour la persistance des données MySQL
+volumes:
+  mysql-data:
