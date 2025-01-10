@@ -38,3 +38,20 @@ sh sh/producer
 ```
 
 Run java class to send messages to the broker 
+
+
+## ERROR : MYSQL DELETED
+docker run -d --rm -it `
+  --name "bdd" `
+  -p 3306:3306 `
+  --net mqtt-network `
+  -e MYSQL_ROOT_PASSWORD=root `
+  mysql:5.7
+
+CREATE DATABASE Tesla;
+USE Tesla;
+CREATE TABLE teslainfo (
+    batterie FLOAT NOT NULL,
+    heure VARCHAR NOT NULL,
+    temperature FLOAT NOT NULL
+);
